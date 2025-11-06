@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Question or Discussion
+    url: https://github.com/YOUR_USERNAME/graphiti-cloud-installer/discussions
+    about: Ask questions or start a discussion about the project
+  - name: Graphiti Documentation
+    url: https://github.com/getzep/graphiti
+    about: Visit the official Graphiti documentation for framework-specific questions
