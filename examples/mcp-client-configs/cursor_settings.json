@@ -1,0 +1,10 @@
+{
+  "mcp.servers": {
+    "graphiti": {
+      "url": "http://YOUR_SERVER_IP:8000",
+      "name": "Graphiti Knowledge Graph",
+      "enabled": true,
+      "description": "Temporal knowledge graph - HTTP by default (use https://your-domain.com if SSL configured)"
+    }
+  }
+}

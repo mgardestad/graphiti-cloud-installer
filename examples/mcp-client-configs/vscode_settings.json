@@ -1,0 +1,14 @@
+{
+  "github.copilot.advanced": {
+    "mcp": {
+      "enabled": true,
+      "servers": {
+        "graphiti": {
+          "url": "http://YOUR_SERVER_IP:8000",
+          "description": "Graphiti temporal knowledge graph - HTTP by default (use https://your-domain.com if SSL configured)",
+          "timeout": 30000
+        }
+      }
+    }
+  }
+}

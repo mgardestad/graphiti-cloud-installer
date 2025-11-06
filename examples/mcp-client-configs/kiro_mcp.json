@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "graphiti": {
+      "url": "http://YOUR_SERVER_IP:8000/mcp",
+      "transport": "http",
+      "disabled": false,
+      "autoApprove": [],
+      "env": {},
+      "description": "Graphiti temporal knowledge graph - HTTP by default, change to https://your-domain.com if SSL configured"
+    }
+  }
+}

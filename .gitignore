@@ -1,0 +1,54 @@
+# Environment files
+.env
+.env.*
+!.env.template
+
+# SSH keys and certificates
+*.pem
+*.key
+*.crt
+*.csr
+
+# SSL certificates
+docker/nginx/ssl/*
+!docker/nginx/ssl/.gitkeep
+
+# Logs
+*.log
+logs/
+/var/log/
+
+# Docker volumes
+docker/volumes/
+
+# Cloud provider credentials
+.aws/
+.gcp/
+.azure/
+
+# Terraform state (if used in future)
+*.tfstate
+*.tfstate.*
+.terraform/
+
+# IDE and editor files
+.vscode/
+.kiro/
+.cursor/
+.claude/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Backup files
+*.bak
+*.backup
+
+# Test artifacts
+test/tmp/
+test/output/

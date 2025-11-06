@@ -1,0 +1,17 @@
+{
+  "mcp": {
+    "servers": {
+      "graphiti": {
+        "type": "http",
+        "url": "http://YOUR_SERVER_IP:8000/mcp/",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "auth": {
+          "type": "bearer",
+          "token": "your-api-key-if-required"
+        }
+      }
+    }
+  }
+}

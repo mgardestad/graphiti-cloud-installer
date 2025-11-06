@@ -1,0 +1,146 @@
+# =============================================================================
+# Graphiti Configuration Template
+# =============================================================================
+# This file configures the Graphiti knowledge graph system
+# Copy this file to config.yaml and customize as needed
+
+# =============================================================================
+# Server Configuration
+# =============================================================================
+server:
+  # Transport protocol for MCP server
+  # Options: "http", "stdio"
+  transport: "http"
+  
+  # Port for HTTP transport (default: 8000)
+  # port: 8000
+  
+  # Host binding (default: 0.0.0.0 for public access)
+  # host: "0.0.0.0"
+
+# =============================================================================
+# LLM Provider Configuration
+# =============================================================================
+llm:
+  # Primary LLM provider for graph operations
+  # Options: "openai", "anthropic", "google", "groq"
+  provider: "openai"
+  
+ 
+  model: "gpt-5-mini"
+  
+  # Optional: Temperature for LLM responses (0.0 - 1.0)
+  # temperature: 0.7
+  
+  # Optional: Maximum tokens for LLM responses
+  # max_tokens: 4096
+
+# =============================================================================
+# Database Provider Configuration
+# =============================================================================
+database:
+  # Graph database provider
+  # Options: "falkordb", "neo4j"
+  # Must match DATABASE_TYPE in .env file
+  provider: "falkordb"
+  
+  # Optional: Connection pool settings
+  # max_connections: 50
+  # connection_timeout: 30
+
+# =============================================================================
+# Embedder Configuration
+# =============================================================================
+embedder:
+  # Provider for generating embeddings
+  # Options: "openai", "anthropic", "google"
+  provider: "openai"
+  
+  # Embedding model to use
+  # OpenAI options: "text-embedding-3-small", "text-embedding-3-large"
+  # Anthropic options: "voyage-2", "voyage-large-2"
+  # Google options: "embedding-001"
+  model: "text-embedding-3-small"
+  
+  # Optional: Embedding dimensions (for models that support it)
+  # dimensions: 1536
+
+# =============================================================================
+# Graphiti Entity Types Configuration
+# =============================================================================
+# Define the types of entities that Graphiti will extract and track
+# Each entity type helps organize and categorize information in the knowledge graph
+
+graphiti:
+  entity_types:
+    - name: "Person"
+      description: "Individual human beings, including users, contacts, and mentioned individuals"
+    
+    - name: "Organization"
+      description: "Companies, institutions, groups, teams, or formal entities"
+    
+    - name: "Location"
+      description: "Physical or virtual places, addresses, cities, countries, or geographic locations"
+    
+    - name: "Event"
+      description: "Time-bound activities, occurrences, meetings, or experiences"
+    
+    - name: "Topic"
+      description: "Subject of conversation, interest, discussion, or knowledge domain"
+    
+    - name: "Document"
+      description: "Information content in various forms: files, articles, reports, or references"
+    
+    - name: "Preference"
+      description: "User preferences, choices, opinions, likes, dislikes, or selections"
+    
+    - name: "Requirement"
+      description: "Specific needs, features, specifications, or functionality requirements"
+    
+    - name: "Procedure"
+      description: "Standard operating procedures, workflows, and sequential instructions"
+    
+    - name: "Product"
+      description: "Goods, services, software, or items that can be used or consumed"
+    
+    - name: "Technology"
+      description: "Tools, frameworks, programming languages, platforms, or technical systems"
+    
+    - name: "Concept"
+      description: "Abstract ideas, theories, principles, or mental constructs"
+
+  # Optional: Custom relationship types
+  # relationship_types:
+  #   - name: "WORKS_FOR"
+  #     description: "Employment or affiliation relationship"
+  #   - name: "LOCATED_IN"
+  #     description: "Physical or logical location relationship"
+
+  # Optional: Graph extraction settings
+  # extraction:
+  #   max_entities_per_episode: 50
+  #   max_relationships_per_episode: 100
+  #   enable_temporal_tracking: true
+
+  # Optional: Search and retrieval settings
+  # search:
+  #   max_results: 10
+  #   similarity_threshold: 0.7
+  #   enable_hybrid_search: true
+
+# =============================================================================
+# Optional: Logging Configuration
+# =============================================================================
+# logging:
+#   level: "INFO"  # Options: DEBUG, INFO, WARNING, ERROR, CRITICAL
+#   format: "json"  # Options: json, text
+#   file: "/var/log/graphiti/graphiti.log"
+
+# =============================================================================
+# Optional: Performance Tuning
+# =============================================================================
+# performance:
+#   batch_size: 100
+#   cache_enabled: true
+#   cache_ttl: 3600
+#   async_processing: true
