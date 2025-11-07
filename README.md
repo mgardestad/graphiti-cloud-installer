@@ -852,9 +852,12 @@ Claude Desktop is a native application that supports MCP servers.
    {
      "mcpServers": {
        "graphiti": {
-         "url": "https://YOUR_SERVER_IP/mcp/",
-         "transport": "http",
-         "description": "Temporal knowledge graph for AI agents"
+         "command": "npx",
+         "args": [
+           "mcp-remote",
+           "http://YOUR_SERVER_IP:8000/mcp/",
+           "--allow-http"
+         ]
        }
      }
    }
@@ -865,12 +868,31 @@ Claude Desktop is a native application that supports MCP servers.
    {
      "mcpServers": {
        "existing-server": {
-         "url": "https://example.com/mcp/"
+         "command": "npx",
+         "args": ["some-other-mcp-server"]
        },
        "graphiti": {
-         "url": "https://YOUR_SERVER_IP/mcp/",
-         "transport": "http",
-         "description": "Temporal knowledge graph for AI agents"
+         "command": "npx",
+         "args": [
+           "mcp-remote",
+           "http://YOUR_SERVER_IP:8000/mcp/",
+           "--allow-http"
+         ]
+       }
+     }
+   }
+   ```
+   
+   **For HTTPS (if you configured a domain):**
+   ```json
+   {
+     "mcpServers": {
+       "graphiti": {
+         "command": "npx",
+         "args": [
+           "mcp-remote",
+           "https://your-domain.com/mcp/"
+         ]
        }
      }
    }
