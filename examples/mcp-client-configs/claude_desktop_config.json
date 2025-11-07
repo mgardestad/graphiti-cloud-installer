@@ -1,9 +1,12 @@
 {
   "mcpServers": {
     "graphiti": {
-      "url": "http://YOUR_SERVER_IP:8000/mcp",
-      "transport": "http",
-      "description": "Graphiti temporal knowledge graph - Use HTTP by default, HTTPS only if domain configured"
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "http://YOUR_SERVER_IP:8000/mcp/",
+        "--allow-http"
+      ]
     }
   }
 }

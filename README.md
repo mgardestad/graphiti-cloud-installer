@@ -64,23 +64,27 @@ Here are the exact configurations for popular AI clients. **Use HTTP URLs unless
 {
   "mcpServers": {
     "graphiti": {
-      "command": "node",
+      "command": "npx",
       "args": [
-        "/path/to/mcp-client-stdio.js",
-        "http://YOUR_SERVER_IP:8000"
+        "mcp-remote",
+        "http://YOUR_SERVER_IP:8000/mcp/",
+        "--allow-http"
       ]
     }
   }
 }
 ```
 
-**Alternative: Using HTTP transport directly (if supported):**
+**For HTTPS (if you configured a domain):**
 ```json
 {
   "mcpServers": {
     "graphiti": {
-      "url": "http://YOUR_SERVER_IP:8000/mcp",
-      "transport": "http"
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://your-domain.com/mcp/"
+      ]
     }
   }
 }
@@ -88,7 +92,9 @@ Here are the exact configurations for popular AI clients. **Use HTTP URLs unless
 
 > 📝 **Replace `YOUR_SERVER_IP`** with the IP address shown at the end of installation (e.g., `34.123.45.67`)
 > 
-> 🔒 **For HTTPS**: Replace `http://YOUR_SERVER_IP:8000` with `https://your-domain.com` (only if you configured a domain)
+> ⚠️ **Important**: The `--allow-http` flag is required for HTTP connections. Remove it when using HTTPS.
+> 
+> 💡 **What is mcp-remote?** It's a bridge tool that converts between the stdio protocol (used by Claude Desktop) and the HTTP/SSE protocol (used by Graphiti server)
 
 ### 💻 Cursor IDE
 

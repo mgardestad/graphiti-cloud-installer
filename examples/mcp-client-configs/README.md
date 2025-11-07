@@ -10,6 +10,7 @@ This directory contains example configuration files for connecting various AI cl
   - macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
   - Windows: `%APPDATA%\Claude\claude_desktop_config.json`
   - Linux: `~/.config/Claude/claude_desktop_config.json`
+- **Note**: Uses `npx mcp-remote` to bridge stdio and HTTP/SSE protocols
 
 ### Cursor IDE
 - **File**: `cursor_settings.json`
@@ -70,7 +71,8 @@ sed -i 's/YOUR_SERVER_IP/34.123.45.67/g' ~/.config/Claude/claude_desktop_config.
 ## 🔒 HTTP vs HTTPS
 
 **By default, Graphiti uses HTTP (not HTTPS):**
-- Default URL: `http://YOUR_SERVER_IP:8000/mcp`
+- Default URL: `http://YOUR_SERVER_IP:8000/mcp/`
+- Requires `--allow-http` flag for Claude Desktop
 - This is fine for testing, development, and private networks
 
 **HTTPS is optional and requires:**
@@ -78,21 +80,35 @@ sed -i 's/YOUR_SERVER_IP/34.123.45.67/g' ~/.config/Claude/claude_desktop_config.
 2. DNS A record pointing to your server IP
 3. Entering the domain during installation
 
-**If you configured a domain with SSL, update the URL to HTTPS:**
+**Claude Desktop Configuration Examples:**
 
 ```json
+// HTTP (default) - Note the --allow-http flag
 {
-  "url": "https://your-domain.com/mcp"
+  "mcpServers": {
+    "graphiti": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "http://34.123.45.67:8000/mcp/",
+        "--allow-http"
+      ]
+    }
+  }
 }
-```
 
-**Example:**
-```bash
-# HTTP (default)
-"url": "http://34.123.45.67:8000/mcp"
-
-# HTTPS (if domain configured)
-"url": "https://graphiti.mycompany.com/mcp"
+// HTTPS (if domain configured) - No --allow-http needed
+{
+  "mcpServers": {
+    "graphiti": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://graphiti.mycompany.com/mcp/"
+      ]
+    }
+  }
+}
 ```
 
 ## ✅ Testing Your Connection
