@@ -641,7 +641,6 @@ DATABASE_TYPE=falkordb
 
 # FalkorDB Configuration (default)
 FALKORDB_URI=redis://falkordb:6379
-FALKORDB_PASSWORD=
 
 # Neo4j Configuration (alternative)
 NEO4J_URI=bolt://neo4j:7687
