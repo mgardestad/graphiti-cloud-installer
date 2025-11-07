@@ -6,6 +6,8 @@ services:
     container_name: graphiti-mcp
     ports:
       - "8000:8000"
+    env_file:
+      - ../.env
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
