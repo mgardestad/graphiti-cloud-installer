@@ -10,6 +10,7 @@ Graphiti Cloud Installer provides one-click deployment scripts that automaticall
 - **Amazon Web Services (AWS)**
 - **Microsoft Azure**
 - **Custom servers via SSH**
+- **Localhost** with Ollama (no API keys) - see [Local Installation](#local-installation-ollama-no-api-keys)
 
 The installer handles all dependencies, configures Docker containers, sets up the graph database (FalkorDB or Neo4j), and exposes a public MCP endpoint for integration with AI clients like Claude Desktop, Cursor, and VS Code.
 
@@ -593,6 +594,53 @@ You need at least one API key from the following LLM providers:
    ```
 
 7. **Configure your AI client** (see [MCP Client Configuration](#mcp-client-configuration))
+
+### Local Installation (Ollama, no API keys)
+
+Run Graphiti on your own machine with [Ollama](https://ollama.com) providing both the LLM and embeddings. You don't need cloud resources, API keys or nginx/SSL.
+
+1. **Install Ollama and pull the models:**
+   ```bash
+   ollama pull gpt-oss            # LLM for entity/fact extraction
+   ollama pull nomic-embed-text   # Embeddings (768 dimensions)
+   ```
+
+2. **Start Graphiti** (Docker Desktop must be running):
+   ```bash
+   cd docker
+   docker compose -f docker-compose-local.yml up -d
+   ```
+
+3. **Connect your client** to `http://localhost:8000/mcp`. For Claude Desktop:
+   ```json
+   {
+     "mcpServers": {
+       "graphiti": {
+         "command": "npx",
+         "args": ["-y", "mcp-remote", "http://localhost:8000/mcp"]
+       }
+     }
+   }
+   ```
+
+The FalkorDB browser is available at `http://localhost:3000`. Log in with host `localhost`, port `6379` and an empty username/password, then select the `default_db` graph. Ports are bound to `127.0.0.1` only.
+
+The browser needs an `ENCRYPTION_KEY` to log in. If `.env` doesn't set one, a new key is generated on every container start, so you have to log in again after a restart. To keep sessions across restarts, set a fixed key: `echo "ENCRYPTION_KEY=$(openssl rand -hex 32)" >> .env`
+
+**Changing models:** create a `.env` file in the repository root and restart the container:
+```bash
+MODEL_NAME=qwen3:latest          # Any Ollama chat model that supports structured output
+EMBEDDER_MODEL=nomic-embed-text
+EMBEDDER_DIMENSIONS=768          # Must match the embedding model
+```
+
+When switching embedding models, clear the graph first (`docker compose -f docker-compose-local.yml down -v`), because stored vectors with different dimensions aren't compatible.
+
+**Performance:** each episode takes several LLM calls. On an Apple Silicon Mac with 36 GB RAM, a one-sentence episode took about 2.5 min with `gpt-oss`, 7.5 min with `qwen3` (slow because it reasons before answering) and 1.5 min with `ministral-3` (faster, but it extracted noticeably fewer facts). `add_memory` returns immediately and processing happens in the background.
+
+**Notes:**
+- The local setup uses the FalkorDB bundled inside the `zepai/knowledge-graph-mcp` image. The separate `falkordb/falkordb:latest` image is currently newer than the graphiti-core version in the MCP image, and startup fails with `Received 5 arguments to procedure 'db.idx.fulltext.createNodeIndex'`.
+- `docker/config-local-ollama.yaml` is mounted over the image's `config/config.yaml`, because the server always loads that path.
 
 ### Database Selection
 

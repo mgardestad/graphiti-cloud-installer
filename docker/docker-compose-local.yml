@@ -1,0 +1,41 @@
+# Local development setup: Graphiti MCP using Ollama on the host for both the
+# LLM and embeddings. No API keys, no nginx/SSL.
+#
+# The zepai/knowledge-graph-mcp image bundles its own FalkorDB, which matches the
+# graphiti-core version it ships with (falkordb/falkordb:latest can be newer and
+# incompatible), so no separate database container is used here.
+#
+# Usage (from this directory):
+#   docker compose -f docker-compose-local.yml up -d
+# MCP endpoint:     http://localhost:8000/mcp/
+# FalkorDB browser: http://localhost:3000
+
+services:
+  graphiti-mcp:
+    image: zepai/knowledge-graph-mcp:latest
+    container_name: graphiti-mcp
+    ports:
+      - "127.0.0.1:8000:8000"
+      - "127.0.0.1:3000:3000"
+    env_file:
+      - path: ../.env
+        required: false
+    environment:
+      - FALKORDB_URI=redis://localhost:6379
+    # The bundled FalkorDB browser refuses logins without a 64-hex-char ENCRYPTION_KEY.
+    # Use ENCRYPTION_KEY from .env if set, otherwise generate one per container start
+    # (browser sessions then don't survive a restart).
+    entrypoint:
+      - sh
+      - -c
+      - export ENCRYPTION_KEY="$${ENCRYPTION_KEY:-$$(node -e 'console.log(require("crypto").randomBytes(32).toString("hex"))')}" && exec /start-services.sh
+    volumes:
+      # main.py always loads config/config.yaml (it overrides CONFIG_PATH), so mount over it
+      - ./config-local-ollama.yaml:/app/mcp/config/config.yaml:ro
+      - falkordb-data:/var/lib/falkordb/data
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+
+volumes:
+  falkordb-data:
